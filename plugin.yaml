@@ -1,0 +1,6 @@
+name: "anchore"
+version: "0.1.0"
+usage: "Analyze container image in your charts for vulnerabilities and compliance issues"
+description: |-
+  "Analyze your helm charts' container images with Anchore"
+command: "$HELM_PLUGIN_DIR/scripts/run.sh"
