@@ -23,6 +23,10 @@ Analyze a Helm charts container images
 
 `helm anchore inspect --chart [Chart Name]`
 
+Evaluate a Helm charts container images against an Anchore policy
+
+`helm anchore evaluate --chart [Chart Name]`
+
 Remove a previously inspected Helm charts analyzed container images from Anchore
 
 `helm anchore delete --chart [Chart Name]`
@@ -34,5 +38,7 @@ Remove a previously inspected Helm charts analyzed container images from Anchore
 Example Usage:
 
 `helm anchore inspect --chart stable/wordpress`
+
+`helm anchore evaluate --chart stable/wordpress`
 
 `helm anchore delete --chart stable/wordpress`
