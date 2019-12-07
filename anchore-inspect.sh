@@ -18,7 +18,7 @@ Example Usage:
 EOF
 }
 
-# Create the passthru array
+# Create passthru array
 PASSTHRU=()
 while [[ $# -gt 0 ]]
 do
@@ -36,7 +36,7 @@ case $key in
     shift # past argument
     ;;
     *)    # unknown option
-    PASSTHRU+=("$1") # save it in an array for later
+    PASSTHRU+=("$1") # save it 
     shift # past argument
     ;;
 esac
@@ -59,7 +59,7 @@ fi
 
 COMMAND=${PASSTHRU[0]}
 
-## Inspect will search through Helm chart and add all container images to Anchore for analysis
+## Inspect will search through Helm chart and add all found container images to Anchore for analysis
 if [ "$COMMAND" == "inspect" ]; then
     echo "Inspecting Helm chart: $CHART"
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
@@ -69,6 +69,17 @@ if [ "$COMMAND" == "inspect" ]; then
         anchore-cli image add "${image}"
     done
     exit 0
+## Evaluate all container images in Helm chart against current Anchore policy bundle
+## The 'inspect' command should be run first to add images to the Anchore system    
+elif [ "$COMMAND" == "evalaute" ]; then
+    echo "Evaluating Helm chart: $CHART"
+    IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
+    for image in "${IMAGES[@]}"
+    do 
+        echo "Analyzing:" "${image}"
+        anchore-cli image evaluate check "${image}"
+    done
+    exit 0    
 ## Delete will search through Helm chart and remove all container images from Anchore. Will use '--force' flag
 elif [ "$COMMAND" == "delete" ]; then
     echo "Inspecting Helm chart: $CHART"
