@@ -32,6 +32,7 @@ Remove a previously inspected Helm charts analyzed container images from Anchore
 
 ### Usage
 Example Usage:
+
 `helm anchore inspect --chart stable/wordpress`
 
 `helm anchore delete --chart stable/wordpress`
