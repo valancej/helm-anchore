@@ -23,7 +23,7 @@ Analyze a Helm charts container images
 
 `helm anchore inspect --chart [Chart Name]`
 
-Remove a previously inspect Helm charts analyzed container images from Anchore
+Remove a previously inspected Helm charts analyzed container images from Anchore
 
 `helm anchore delete --chart [Chart Name]`
 
