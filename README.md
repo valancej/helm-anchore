@@ -1,8 +1,16 @@
 # Anchore Helm Plugin
 
-Analyze a Helm charts container images
+Helm plugin for Anchore to analyze a Helm charts container images
 
-Your Anchore CLI credentials should be set as environment variables: https://github.com/anchore/anchore-cli
+## Installation
+
+Install the plugin using the built-in helm plugin command:
+
+`helm plugin install --version 0.1.0 https://github.com/valancej/helm-anchore.git`
+
+This plugin is utilized the [Anchore CLI](https://github.com/anchore/anchore-cli) to connect to a running Anchore Engine instance.
+
+Your Anchore CLI credentials should be set as environment variables:
 
 ```
 ANCHORE_CLI_URL=http://myserver.example.com:8228/v1
