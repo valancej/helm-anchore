@@ -8,13 +8,21 @@ Analyze a Helm charts container images
 Your Anchore CLI credentials should be set as environment variables: https://github.com/anchore/anchore-cli
 
 Available Commands:
-    helm anchore inspect --chart [Chart Name]           Analyze a Helm charts container images
+    helm anchore inspect --chart [Chart name]           Analyze a Helm charts container images
+
+    helm anchore evaluate --chart [Chart name]          Evaluate a previously analzyed Helm charts container images against an Anchore policy
+
+    helm anchore delete --chart [Chart name]            Delete all images discovered in a previously analyzed Helm chart from Anchore
 
 Available Flags:
     --chart          (Required) Specify the Helm chart to analyze
 
 Example Usage:
     helm anchore inspect --chart stable/wordpress
+
+    helm anchore evaluate --chart stable/wordpress
+
+    helm anchore delete --chart stable/wordpress
 EOF
 }
 
@@ -71,13 +79,13 @@ if [ "$COMMAND" == "inspect" ]; then
     exit 0
 ## Evaluate all container images in Helm chart against current Anchore policy bundle
 ## The 'inspect' command should be run first to add images to the Anchore system    
-elif [ "$COMMAND" == "evalaute" ]; then
+elif [ "$COMMAND" == "evaluate" ]; then
     echo "Evaluating Helm chart: $CHART"
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
     for image in "${IMAGES[@]}"
     do 
-        echo "Analyzing:" "${image}"
-        anchore-cli image evaluate check "${image}"
+        echo "Evaluating: ${image}"
+        anchore-cli evaluate check "${image}" || true
     done
     exit 0    
 ## Delete will search through Helm chart and remove all container images from Anchore. Will use '--force' flag
