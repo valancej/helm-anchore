@@ -6,7 +6,7 @@ Helm plugin for Anchore to analyze a Helm charts container images
 
 Install the plugin using the built-in helm plugin command:
 
-`helm plugin install https://github.com/valancej/helm-anchore.git`
+`helm plugin install https://github.com/valancej/helm-anchore`
 
 This plugin utilizes the [Anchore CLI](https://github.com/anchore/anchore-cli) to connect to a running Anchore Engine instance.
 
