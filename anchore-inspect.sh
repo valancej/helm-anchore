@@ -77,8 +77,19 @@ if [ "$COMMAND" == "inspect" ]; then
         anchore-cli image add "${image}"
     done
     exit 0
+## Get a list of vulnerabilities for all container images in Helm chart
+## NOTE: The 'inspect' command should be run first to add images to the Anchore system    
+elif [ "$COMMAND" == "vuln" ]; then
+    echo "Evaluating Helm chart: $CHART"
+    IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
+    for image in "${IMAGES[@]}"
+    do 
+        echo "Evaluating: ${image}"
+        anchore-cli image vuln "${image}" all || true
+    done
+    exit 0  
 ## Evaluate all container images in Helm chart against current Anchore policy bundle
-## The 'inspect' command should be run first to add images to the Anchore system    
+## NOTE: The 'inspect' command should be run first to add images to the Anchore system    
 elif [ "$COMMAND" == "evaluate" ]; then
     echo "Evaluating Helm chart: $CHART"
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
