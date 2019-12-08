@@ -79,7 +79,7 @@ if [ "$COMMAND" == "inspect" ]; then
     for image in "${IMAGES[@]}"
     do 
         echo "Analyzing:" "${image}"
-        if [ "$JSON" == TRUE ] then
+        if [ "$JSON" == "TRUE" ] then
             anchore-cli --json image add "${image}"
         else
             anchore-cli image add "${image}"
@@ -93,7 +93,7 @@ elif [ "$COMMAND" == "vuln" ]; then
     for image in "${IMAGES[@]}"
     do 
         echo "Getting vulnerabilities for: ${image}"
-        if [ "$JSON" == TRUE ] then
+        if [ "$JSON" == "TRUE" ] then
             anchore-cli --json image vuln "${image}" all || true
         else
             anchore-cli image vuln "${image}" all || true
