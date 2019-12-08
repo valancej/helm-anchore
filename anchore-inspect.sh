@@ -80,7 +80,7 @@ if [ "$COMMAND" == "inspect" ]; then
 ## Get a list of vulnerabilities for all container images in Helm chart
 ## NOTE: The 'inspect' command should be run first to add images to the Anchore system    
 elif [ "$COMMAND" == "vuln" ]; then
-    echo "Evaluating Helm chart: $CHART"
+    echo "Getting vulnerabilities for Helm chart: $CHART"
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
     for image in "${IMAGES[@]}"
     do 
