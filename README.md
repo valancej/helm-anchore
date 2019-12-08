@@ -10,7 +10,7 @@ Install the plugin using the built-in helm plugin command:
 
 This plugin utilizes the [Anchore CLI](https://github.com/anchore/anchore-cli) to connect to a running Anchore Engine instance.
 
-Your Anchore CLI credentials should be set as environment variables:
+Prior to using the plugin, your Anchore CLI credentials should be set as environment variables:
 
 ```
 ANCHORE_CLI_URL=http://myserver.example.com:8228/v1
@@ -23,7 +23,7 @@ Analyze a Helm charts container images
 
 `helm anchore inspect --chart [Chart Name]`
 
-Evaluate a Helm charts container images against an Anchore policy
+Evaluate a Helm chart's container images against an Anchore policy
 
 `helm anchore evaluate --chart [Chart Name]`
 
