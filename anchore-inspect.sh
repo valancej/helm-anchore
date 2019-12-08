@@ -39,6 +39,11 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    --json)
+    JSON=TRUE
+    shift # past argument
+    shift # past value
+    ;;
     --help)
     HELP=TRUE
     shift # past argument
@@ -74,7 +79,10 @@ if [ "$COMMAND" == "inspect" ]; then
     for image in "${IMAGES[@]}"
     do 
         echo "Analyzing:" "${image}"
-        anchore-cli image add "${image}"
+        if [ "$JSON" == TRUE ] then
+            anchore-cli --json image add "${image}"
+        else
+            anchore-cli image add "${image}"
     done
     exit 0
 ## Get a list of vulnerabilities for all container images in Helm chart
@@ -84,8 +92,11 @@ elif [ "$COMMAND" == "vuln" ]; then
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
     for image in "${IMAGES[@]}"
     do 
-        echo "Evaluating: ${image}"
-        anchore-cli image vuln "${image}" all || true
+        echo "Getting vulnerabilities for: ${image}"
+        if [ "$JSON" == TRUE ] then
+            anchore-cli --json image vuln "${image}" all || true
+        else
+            anchore-cli image vuln "${image}" all || true
     done
     exit 0  
 ## Evaluate all container images in Helm chart against current Anchore policy bundle
