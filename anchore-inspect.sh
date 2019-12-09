@@ -77,6 +77,7 @@ if [ "$COMMAND" == "inspect" ]; then
         anchore-cli image add "${image}"
         anchore-cli image "wait" "${image}"
     done
+    echo "Done analyzing images in: $CHART"
     exit 0
 ## Get a list of vulnerabilities for all container images in Helm chart
 ## NOTE: The 'inspect' command should be run first to add images to the Anchore system    
