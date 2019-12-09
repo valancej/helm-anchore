@@ -75,7 +75,7 @@ if [ "$COMMAND" == "inspect" ]; then
     do 
         echo "Analyzing:" "${image}"
         anchore-cli image add "${image}"
-        anchore-cli image "wait" "${image}"
+        #anchore-cli image "wait" "${image}"
     done
     echo "Done analyzing images in: $CHART"
     exit 0
