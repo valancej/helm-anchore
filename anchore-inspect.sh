@@ -69,7 +69,7 @@ COMMAND=${PASSTHRU[0]}
 
 ## Inspect will search through Helm chart and add all found container images to Anchore for analysis
 if [ "$COMMAND" == "inspect" ]; then
-    echo "Inspecting Helm chart: $CHART"
+    echo "Analyzing images in Helm chart: $CHART"
     IMAGES=( $(helm install --generate-name "$CHART" --dry-run | grep image: | sed 's/ //g' | cut -c 7- | tr -d '"'))
     for image in "${IMAGES[@]}"
     do 
@@ -77,6 +77,7 @@ if [ "$COMMAND" == "inspect" ]; then
         anchore-cli image add "${image}"
         anchore-cli image "wait" "${image}"
     done
+    echo "Done analyzing images in: $CHART"
     exit 0
 ## Get a list of vulnerabilities for all container images in Helm chart
 ## NOTE: The 'inspect' command should be run first to add images to the Anchore system    
